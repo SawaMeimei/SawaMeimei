@@ -94,7 +94,7 @@
 准备工作以binding setText方法为例。将getData &amp;gt;&amp;gt; setData &amp;gt;&amp;gt; notifyUI 简化成 getData &amp;gt;&amp;gt; setData">
 <meta property="og:image" content="http://yoursite.com/2016/10/15/ioc2/p3.png">
 <meta property="og:image" content="http://yoursite.com/2016/10/15/ioc2/p4.png">
-<meta property="og:updated_time" content="2016-10-15T13:40:44.692Z">
+<meta property="og:updated_time" content="2016-10-15T13:44:56.278Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用注解完成自己的一个DataBinding框架">
 <meta name="twitter:description" content="需求场景DataBinding,即将数据和view的行为绑定，在更新数据的时候自动更新view的显示。让coder更专注于业务上的数据变化。摆脱繁琐的setText,setBackground等等操作。
@@ -301,6 +301,7 @@
 <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>以binding setText方法为例。将getData &gt;&gt; setData &gt;&gt; notifyUI 简化成 getData &gt;&gt; setData ，而notifyUI这一步放到和setData绑定，实现在setData 的时候自动notifyUI。</p>
 <p>分解步骤为<br>1.将bean的字段和view的指定方法绑定（这里以setText为例<br>2.在setData的时候自动调用notifyUI的方法。<br>3.notifyUI的方法将自动获取bean的字段值和绑定的view的方法，并且调用绑定的view的方法传入值</p>
 <a id="more"></a>
+
 <h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><p>1.先定义一个注解，这个注解用来注解需要绑定的字段和绑定的对象，注解需要的数据有（绑定的方法名，绑定的方法的参数类型，绑定的view对象）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@Target(ElementType.FIELD)</div><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">public @interface Bind &#123;</div><div class="line">    public int viewId();  //绑定的目标view的id</div><div class="line">    public String methodName();   //绑定的view的方法</div><div class="line">    public String policy();   //数据转化策略</div><div class="line">    public Class methodParameter();   //绑定的view的方法的参数</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>注意到这里有个policy,数据转化策略，这个东西用来转化数据的类型。比如说，现在获取到一个String 类型的数据，但是我要在这个数据为null或“”的时候给对应的textview设置为”无”，又不希望改变数据的结构，这个策略就是用来将数据在设置到view之前的一个转化层。</p>
