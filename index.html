@@ -248,6 +248,105 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/15/ioc2/" itemprop="url">
+                  使用注解完成自己的一个DataBinding框架
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-15T21:32:02+08:00" content="2016-10-15">
+              2016-10-15
+            </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="需求场景"><a href="#需求场景" class="headerlink" title="需求场景"></a>需求场景</h3><p>DataBinding,即将数据和view的行为绑定，在更新数据的时候自动更新view的显示。让coder更专注于业务上的数据变化。摆脱繁琐的setText,setBackground等等操作。</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>以binding setText方法为例。将getData &gt;&gt; setData &gt;&gt; notifyUI 简化成 getData &gt;&gt; setData ，而notifyUI这一步放到和setData绑定，实现在setData 的时候自动notifyUI。</p>
+<p>分解步骤为<br>1.将bean的字段和view的指定方法绑定（这里以setText为例<br>2.在setData的时候自动调用notifyUI的方法。<br>3.notifyUI的方法将自动获取bean的字段值和绑定的view的方法，并且调用绑定的view的方法传入值</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/10/15/ioc2/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/11/ioc/" itemprop="url">
                   从注解到ioc框架
                 </a>

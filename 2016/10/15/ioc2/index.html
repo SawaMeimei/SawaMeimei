@@ -1,0 +1,526 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="需求场景DataBinding,即将数据和view的行为绑定，在更新数据的时候自动更新view的显示。让coder更专注于业务上的数据变化。摆脱繁琐的setText,setBackground等等操作。
+准备工作以binding setText方法为例。将getData &amp;gt;&amp;gt; setData &amp;gt;&amp;gt; notifyUI 简化成 getData &amp;gt;&amp;gt; setData">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用注解完成自己的一个DataBinding框架">
+<meta property="og:url" content="http://yoursite.com/2016/10/15/ioc2/index.html">
+<meta property="og:site_name" content="Sawa' Blog">
+<meta property="og:description" content="需求场景DataBinding,即将数据和view的行为绑定，在更新数据的时候自动更新view的显示。让coder更专注于业务上的数据变化。摆脱繁琐的setText,setBackground等等操作。
+准备工作以binding setText方法为例。将getData &amp;gt;&amp;gt; setData &amp;gt;&amp;gt; notifyUI 简化成 getData &amp;gt;&amp;gt; setData">
+<meta property="og:image" content="http://yoursite.com/2016/10/15/ioc2/p3.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/15/ioc2/p4.png">
+<meta property="og:updated_time" content="2016-10-15T13:40:44.692Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用注解完成自己的一个DataBinding框架">
+<meta name="twitter:description" content="需求场景DataBinding,即将数据和view的行为绑定，在更新数据的时候自动更新view的显示。让coder更专注于业务上的数据变化。摆脱繁琐的setText,setBackground等等操作。
+准备工作以binding setText方法为例。将getData &amp;gt;&amp;gt; setData &amp;gt;&amp;gt; notifyUI 简化成 getData &amp;gt;&amp;gt; setData">
+<meta name="twitter:image" content="http://yoursite.com/2016/10/15/ioc2/p3.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/10/15/ioc2/"/>
+
+  <title> 使用注解完成自己的一个DataBinding框架 | Sawa' Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title" >
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Sawa' Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用注解完成自己的一个DataBinding框架
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-15T21:32:02+08:00" content="2016-10-15">
+              2016-10-15
+            </time>
+            
+            |<span id="busuanzi_container_page_pv">
+              <span id="busuanzi_value_page_pv"></span>次阅读
+            </span>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="需求场景"><a href="#需求场景" class="headerlink" title="需求场景"></a>需求场景</h3><p>DataBinding,即将数据和view的行为绑定，在更新数据的时候自动更新view的显示。让coder更专注于业务上的数据变化。摆脱繁琐的setText,setBackground等等操作。</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>以binding setText方法为例。将getData &gt;&gt; setData &gt;&gt; notifyUI 简化成 getData &gt;&gt; setData ，而notifyUI这一步放到和setData绑定，实现在setData 的时候自动notifyUI。</p>
+<p>分解步骤为<br>1.将bean的字段和view的指定方法绑定（这里以setText为例<br>2.在setData的时候自动调用notifyUI的方法。<br>3.notifyUI的方法将自动获取bean的字段值和绑定的view的方法，并且调用绑定的view的方法传入值</p>
+<a id="more"></a>
+<h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><p>1.先定义一个注解，这个注解用来注解需要绑定的字段和绑定的对象，注解需要的数据有（绑定的方法名，绑定的方法的参数类型，绑定的view对象）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@Target(ElementType.FIELD)</div><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">public @interface Bind &#123;</div><div class="line">    public int viewId();  //绑定的目标view的id</div><div class="line">    public String methodName();   //绑定的view的方法</div><div class="line">    public String policy();   //数据转化策略</div><div class="line">    public Class methodParameter();   //绑定的view的方法的参数</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意到这里有个policy,数据转化策略，这个东西用来转化数据的类型。比如说，现在获取到一个String 类型的数据，但是我要在这个数据为null或“”的时候给对应的textview设置为”无”，又不希望改变数据的结构，这个策略就是用来将数据在设置到view之前的一个转化层。</p>
+<p>2.注解了需要binnding的字段之后，就要获取到注解上的view和指定的字段绑定，这里以binding Activity中的view示例，提供一个统一的binding方法来将veiw和字段binding.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">private HashMap&lt;String,ArrayList&lt;BindBlock&gt;&gt; $ = new HashMap&lt;&gt;();</div><div class="line"></div><div class="line">public void bindWithPolicy(Activity activity) &#123;</div><div class="line">        try &#123;</div><div class="line">            //获取对象上所有的field并且尝试获取field上的Bind注解</div><div class="line">            Field[] fields = this.getClass().getDeclaredFields();</div><div class="line">            for (int i = 0; i &lt; fields.length; i++) &#123;</div><div class="line">                Field valueField = fields[i];</div><div class="line">                valueField.setAccessible(true);</div><div class="line">                Bind annotation = valueField.getAnnotation(Bind.class);</div><div class="line">                if (annotation != null) &#123;</div><div class="line">                    //如果注解存在，尝试获取注解上的信息</div><div class="line">                    //注解上的信息有：binding对象的viewId，binding的方法名，binding的方法参数，数据转化策略。</div><div class="line"></div><div class="line">                    //通过viewId获取到binding的view</div><div class="line">                    int viewId = annotation.viewId();</div><div class="line">                    View view = activity.findViewById(viewId);</div><div class="line"></div><div class="line">                    //通过parameter和methodName获取到binding的method</div><div class="line">                    Class parameter = annotation.methodParameter();</div><div class="line">                    String methodName = annotation.methodName();</div><div class="line">                    Method method = view.getClass().getMethod(methodName,parameter);</div><div class="line">                    if(method==null)&#123;</div><div class="line">                        throw new RuntimeException(&quot;Can not find method named&quot;+methodName);</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    //获取数据转化策略，这里定义了一个IPolicy接口让自定义的数据转化策略实现</div><div class="line">                    String policy = annotation.policy();</div><div class="line">                    Object policyObj = null;</div><div class="line">                    if(!TextUtils.isEmpty(policy))&#123;</div><div class="line">                        Class&lt;?&gt; policyClass = Class.forName(policy);</div><div class="line">                        policyObj = policyClass.newInstance();</div><div class="line">                        if(!(policyObj instanceof IPolicy))&#123;</div><div class="line">                            throw new RuntimeException(&quot;Incorrect policy&quot;);</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    //在binding的时候调用一次binding的method,给数据初始化到view上，这一步也是notifyUI的操作</div><div class="line">                    Object value = valueField.get(this);</div><div class="line">                    if(policyObj!=null)&#123;</div><div class="line">                        value = ((IPolicy) policyObj).doPolicy(value);</div><div class="line">                    &#125;</div><div class="line">                    method.invoke(view, value);</div><div class="line"></div><div class="line">                    //把上面几个元素都存起来，当数据改变的时候用于notifyUI</div><div class="line">                    ArrayList&lt;BindBlock&gt; arr = $.get(valueField.getName());</div><div class="line">                    if(arr == null)&#123;</div><div class="line">                        arr = new ArrayList&lt;&gt;();</div><div class="line">                        //以binding的fieldName作为key</div><div class="line">                        $.put(valueField.getName(),arr);</div><div class="line">                    &#125;</div><div class="line">                    arr.add(new BindBlock(method, valueField, view, (IPolicy) policyObj));</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这个BindBlock只是保存了几个元素的对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">public class BindBlock &#123;</div><div class="line"></div><div class="line">    public Method method;</div><div class="line">    public Field fieldValue;</div><div class="line">    public View bindView;</div><div class="line">    public IPolicy policy;</div><div class="line"></div><div class="line">    public BindBlock() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public BindBlock(Method method, Field fieldValue, View bindView, IPolicy policy) &#123;</div><div class="line">        this.method = method;</div><div class="line">        this.fieldValue = fieldValue;</div><div class="line">        this.bindView = bindView;</div><div class="line">        this.policy = policy;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public BindBlock(Method method, Field fieldValue, View bindView) &#123;</div><div class="line">        this.method = method;</div><div class="line">        this.fieldValue = fieldValue;</div><div class="line">        this.bindView = bindView;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>IPolicy<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public interface IPolicy &#123;</div><div class="line">    public Object doPolicy(Object o);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>通过binding方法之后，就将data和view 绑定了，当数据刷新的时候调用notifyUI方法，自动取出我们的method并调用invoke方法，就自动的把数据刷新到view上了</p>
+<p>notifyUI方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">public void notifyUI() &#123;</div><div class="line">        try &#123;</div><div class="line">          //这里data改变的时候，只要找到指定的field绑定的method来调用invoke就行。</div><div class="line">            StackTraceElement[] stack = Thread.currentThread().getStackTrace();</div><div class="line">            String methodName = stack[3].getMethodName();</div><div class="line">            String fieldName = methodName.replace(&quot;set&quot;, &quot;&quot;);</div><div class="line">            StringBuilder stringBuilder = new StringBuilder();</div><div class="line">            fieldName = stringBuilder.append(Character.toLowerCase(fieldName.charAt(0))).append(fieldName.substring(1)).toString();</div><div class="line">            ArrayList&lt;BindBlock&gt; arr = $.get(fieldName);</div><div class="line"></div><div class="line">            //执行notifyUI的操作</div><div class="line">            for(BindBlock block:arr)&#123;</div><div class="line">                Object value = block.fieldValue.get(this);</div><div class="line">                if(block.policy!=null)&#123;</div><div class="line">                    value = block.policy.doPolicy(value);</div><div class="line">                &#125;</div><div class="line">                block.method.invoke(block.bindView, value);</div><div class="line">            &#125;</div><div class="line">        &#125; catch (IllegalAccessException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; catch (InvocationTargetException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>完整的BindObtain类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">public class BindObtain &#123;</div><div class="line"></div><div class="line">    private HashMap&lt;String,ArrayList&lt;BindBlock&gt;&gt; $ = new HashMap&lt;&gt;();</div><div class="line"></div><div class="line">    public void bindWithPolicy(Activity activity) &#123;</div><div class="line">        try &#123;</div><div class="line">            //获取对象上所有的field并且尝试获取field上的Bind注解</div><div class="line">            Field[] fields = this.getClass().getDeclaredFields();</div><div class="line">            for (int i = 0; i &lt; fields.length; i++) &#123;</div><div class="line">                Field valueField = fields[i];</div><div class="line">                valueField.setAccessible(true);</div><div class="line">                Bind annotation = valueField.getAnnotation(Bind.class);</div><div class="line">                if (annotation != null) &#123;</div><div class="line">                    //如果注解存在，尝试获取注解上的信息</div><div class="line">                    //注解上的信息有：binding对象的viewId，binding的方法名，binding的方法参数，数据转化策略。</div><div class="line"></div><div class="line">                    //通过viewId获取到binding的view</div><div class="line">                    int viewId = annotation.viewId();</div><div class="line">                    View view = activity.findViewById(viewId);</div><div class="line"></div><div class="line">                    //通过parameter和methodName获取到binding的method</div><div class="line">                    Class parameter = annotation.methodParameter();</div><div class="line">                    String methodName = annotation.methodName();</div><div class="line">                    Method method = view.getClass().getMethod(methodName,parameter);</div><div class="line">                    if(method==null)&#123;</div><div class="line">                        throw new RuntimeException(&quot;Can not find method named&quot;+methodName);</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    //获取数据转化策略，这里定义了一个IPolicy接口让自定义的数据转化策略实现</div><div class="line">                    String policy = annotation.policy();</div><div class="line">                    Object policyObj = null;</div><div class="line">                    if(!TextUtils.isEmpty(policy))&#123;</div><div class="line">                        Class&lt;?&gt; policyClass = Class.forName(policy);</div><div class="line">                        policyObj = policyClass.newInstance();</div><div class="line">                        if(!(policyObj instanceof IPolicy))&#123;</div><div class="line">                            throw new RuntimeException(&quot;Incorrect policy&quot;);</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    //在binding的时候调用一次binding的method,给数据初始化到view上，这一步也是notifyUI的操作</div><div class="line">                    Object value = valueField.get(this);</div><div class="line">                    if(policyObj!=null)&#123;</div><div class="line">                        value = ((IPolicy) policyObj).doPolicy(value);</div><div class="line">                    &#125;</div><div class="line">                    method.invoke(view, value);</div><div class="line"></div><div class="line">                    //把上面几个元素都存起来，当数据改变的时候用于notifyUI</div><div class="line">                    ArrayList&lt;BindBlock&gt; arr = $.get(valueField.getName());</div><div class="line">                    if(arr == null)&#123;</div><div class="line">                        arr = new ArrayList&lt;&gt;();</div><div class="line">                        $.put(valueField.getName(),arr);</div><div class="line">                    &#125;</div><div class="line">                    arr.add(new BindBlock(method, valueField, view, (IPolicy) policyObj));</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    protected void notifyUI() &#123;</div><div class="line">        try &#123;</div><div class="line">            StackTraceElement[] stack = Thread.currentThread().getStackTrace();</div><div class="line">            String methodName = stack[3].getMethodName();</div><div class="line">            String fieldName = methodName.replace(&quot;set&quot;, &quot;&quot;);</div><div class="line">            StringBuilder stringBuilder = new StringBuilder();</div><div class="line">            fieldName = stringBuilder.append(Character.toLowerCase(fieldName.charAt(0))).append(fieldName.substring(1)).toString();</div><div class="line">            ArrayList&lt;BindBlock&gt; arr = $.get(fieldName);</div><div class="line">            //Log.e(&quot;fieldName2&quot;,fieldName);</div><div class="line">            for(BindBlock block:arr)&#123;</div><div class="line">                Object value = block.fieldValue.get(this);</div><div class="line">                if(block.policy!=null)&#123;</div><div class="line">                    value = block.policy.doPolicy(value);</div><div class="line">                &#125;</div><div class="line">                block.method.invoke(block.bindView, value);</div><div class="line">            &#125;</div><div class="line">        &#125; catch (IllegalAccessException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; catch (InvocationTargetException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>现在来使用一下<br>先定义一个class来继承BindObtain,在需要binding的字段上加上@Bind注解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class TestBean extends BindObtain &#123;</div><div class="line"></div><div class="line">    public String getTextContent() &#123;</div><div class="line">        return textContent;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setTextContent(String textContent) &#123;</div><div class="line">        this.textContent = textContent;</div><div class="line">        notifyUI();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //@BindText(R.id.tv_content)</div><div class="line">    @Bind(viewId = R.id.tv_content,policy = &quot;com.example.hasee.mvvm.policy.TextPolicy&quot;,methodParameter = CharSequence.class,methodName = &quot;setText&quot;)</div><div class="line">    private String textContent;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>注意到在set方法里除了数据的set还调用了notifyUI方法，这样在设置数据的同时就会刷新ui。</p>
+<p>使用的数据转换策略是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public class TextPolicy implements IPolicy &#123;</div><div class="line">    @Override</div><div class="line">    public Object doPolicy(Object o) &#123;</div><div class="line">        if(o==null|| TextUtils.isEmpty(String.valueOf(o)))&#123;</div><div class="line">            return &quot;Nothing&quot;;</div><div class="line">        &#125;else&#123;</div><div class="line">            return String.valueOf(o);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Activity的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public class MainActivity extends AppCompatActivity &#123;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">        super.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        initView();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void initView() &#123;</div><div class="line">        final TestBean testBean = new TestBean();</div><div class="line">        testBean.bindWithPolicy(this);</div><div class="line">        testBean.setTextContent(&quot;after bind!!&quot;);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>先bind然后直接通过set方法来改变数据，在bean的内部会调用notifyUI方法来刷新ui。xml布局是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;</div><div class="line">    android:layout_width=&quot;match_parent&quot;</div><div class="line">    android:layout_height=&quot;match_parent&quot;</div><div class="line">    android:orientation=&quot;vertical&quot;</div><div class="line">    tools:context=&quot;com.example.hasee.mvvm.MainActivity&quot;&gt;</div><div class="line"></div><div class="line">    &lt;TextView</div><div class="line">        android:id=&quot;@+id/tv_content&quot;</div><div class="line">        android:layout_width=&quot;wrap_content&quot;</div><div class="line">        android:layout_height=&quot;wrap_content&quot;</div><div class="line">        android:text=&quot;before bind!!&quot; /&gt;</div><div class="line"></div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p>看看结果,如果是after bind,则说明成功了。<br><img src="/2016/10/15/ioc2/p3.png" alt="p3.png" title=""><br>bravo!<br>在修改几句activity的代码看看数据转换策略有没有生效<br>将activity的代码改成这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">private void initView() &#123;</div><div class="line">       final TestBean testBean = new TestBean();</div><div class="line">       testBean.bindWithPolicy(this);</div><div class="line">       testBean.setTextContent(&quot;&quot;);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>如果显示的是noting那么数据转换策略就可以正常使用了<br><img src="/2016/10/15/ioc2/p4.png" alt="p4.png" title=""><br>bravo!<br>这样就完成了一个简单的databinding的框架了。</p>
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>在notifyUI方法里有这么一段代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">StackTraceElement[] stack = Thread.currentThread().getStackTrace();</div><div class="line">String methodName = stack[3].getMethodName();</div><div class="line">String fieldName = methodName.replace(&quot;set&quot;, &quot;&quot;);</div><div class="line">StringBuilder stringBuilder = new StringBuilder();</div><div class="line">fieldName = stringBuilder.append(Character.toLowerCase(fieldName.charAt(0))).append(fieldName.substring(1)).toString();</div></pre></td></tr></table></figure></p>
+<p>这句话的代码是获取到notifyUI之前执行的入口方法的名字，在实例中都是在set方法执行的，通过字符串操作就可以获取是哪个field的set方法执行了，再通过fieldname就能获取到binding的几个元素。<br>也可以通过传入字符串的方式来获取。<br>关于StackTraceElement可以查看这篇<a href="http://blog.csdn.net/lmj623565791/article/details/52506545" target="_blank" rel="external">文章</a></p>
+<h3 id="一些其他的问题"><a href="#一些其他的问题" class="headerlink" title="一些其他的问题"></a>一些其他的问题</h3><p>1.多个数据binding的情况，比如多个数据都binding到一个view，view的刷新是由多个数据共同决定。<br>比如bean中有三个String view显示其中最长的String，这种多个数据binding到一个view的情况还没办法解决。</p>
+<p>2.这种binding形式持有了view的引用，数据要做好回收和释放，否则可能容易内存泄漏。</p>
+<p>3.继承了BindObtain的bean不是单纯的POJO，不能通过gson直接转换成json字符串，也不能通过json字符串直接生成bean实体，需要另外想办法。</p>
+<p>4.一个字段不能同时binding多个view的method，比如binding了setText就不能binding setVisible方法。</p>
+<p><a href="https://github.com/SawaMeimei/DataBindingDemo" target="_blank" rel="external">源码查看</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag">#android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/11/ioc/" rel="next" title="从注解到ioc框架">
+                <i class="fa fa-chevron-left"></i> 从注解到ioc框架
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sawa</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+&nbsp;
+<span id="busuanzi_container_site_pv">
+  访问量<span id="busuanzi_value_site_pv"></span>次
+</span>|
+<span id="busuanzi_container_site_uv">
+  访客数<span id="busuanzi_value_site_uv"></span>人
+</span>
+&nbsp;
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
