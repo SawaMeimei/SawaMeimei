@@ -230,6 +230,10 @@
     
         
            
+        
+    
+        
+           
               
 
   
@@ -350,6 +354,112 @@
     
         
            
+              
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/23/androidTips/" itemprop="url">
+                  Android 一些小知识点的汇总
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+
+            
+               
+                  <span class="post-meta-item-text">发表于</span>
+                  <time itemprop="dateCreated" datetime="2016-10-23T20:53:29+08:00" content="2016-10-23">
+                    2016-10-23
+                  </time>
+                  
+               
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="1-Intent通信是属于进程间通信"><a href="#1-Intent通信是属于进程间通信" class="headerlink" title="1.Intent通信是属于进程间通信"></a>1.Intent通信是属于进程间通信</h5><h5 id="2-如何申请大内存，申请了大内存后的内存分配机制是什么？"><a href="#2-如何申请大内存，申请了大内存后的内存分配机制是什么？" class="headerlink" title="2.如何申请大内存，申请了大内存后的内存分配机制是什么？"></a>2.如何申请大内存，申请了大内存后的内存分配机制是什么？</h5><p>通过ActivityManager.getMemoryClass()可以获取分配的内存，在manifest中设置了largeHeap=true之后，可以使用更大内存。<br>内存的分配机制是刚开始系统会给你程序分配上限是已经使用的内存的一倍左右，当不够用时慢慢调整上限，当超过一定的使用量时，会大幅度调整上限。<br>但是也不是没有限制，heapsize是在manifest中设置了largeHeap=true之后，可以使用的最大内存值，这个值可以在/system/build.prop中查看到。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dalvik.vm.heapsize=128m  </div><div class="line">dalvik.vm.heapgrowthlimit=64m</div></pre></td></tr></table></figure></p>
+<p>详情见<a href="http://blog.csdn.net/jiaoyang623/article/details/8773445" target="_blank" rel="external">manifest中的largeHeap是干什么用的</a></p>
+<h4 id="3-recycleView的setSpanSizeLookup方法可以设置item的跨度，跨越多少列。"><a href="#3-recycleView的setSpanSizeLookup方法可以设置item的跨度，跨越多少列。" class="headerlink" title="3.recycleView的setSpanSizeLookup方法可以设置item的跨度，跨越多少列。"></a>3.recycleView的setSpanSizeLookup方法可以设置item的跨度，跨越多少列。</h4><p><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0722/3214.html" target="_blank" rel="external">RecyclerView:实现带header的grid</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+           
+        
+    
+        
+           
         
     
         
@@ -373,6 +483,10 @@
         
     
 
+    
+        
+           
+        
     
         
            
