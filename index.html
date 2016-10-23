@@ -226,8 +226,11 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+
     
-      
+        
+           
+              
 
   
   
@@ -248,8 +251,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/10/22/handler/" itemprop="url">
-                  handler机制再梳理
+                <a class="post-title-link" href="/2016/10/23/index2/" itemprop="url">
+                  【置顶】文章导航
                 </a>
               
             
@@ -261,10 +264,9 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-22T19:32:02+08:00" content="2016-10-22">
-              2016-10-22
-            </time>
+
+            
+               
             
           </span>
 
@@ -292,13 +294,10 @@
 
       
         
-          <p>面试又问到handler机制，还有些细节不明白。再梳理一遍。</p>
-<p>首先是Looper.prepare方法。这个方法做了几件工作；<br>1.创建messageQueue.<br>2.创建looper实例<br>3.将messageQueen和looper和当前线程绑定。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/10/22/handler/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          
+             
+          
+
         
       
     </div>
@@ -324,8 +323,176 @@
   </article>
 
 
+           
+        
     
+        
+           
+        
+    
+        
+           
+        
+    
+        
+           
+        
+    
+        
+           
+        
+    
+        
+           
+        
+    
+
+    
+        
+           
+        
+    
+        
+           
+        
+    
+        
+           
+        
+    
+        
+           
+        
+    
+        
+           
+        
+    
+        
+           
+        
+    
+
+    
+        
+           
+        
+    
+        
+           
+              
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/22/handler/" itemprop="url">
+                  Handler机制再梳理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+
+            
+               
+                  <span class="post-meta-item-text">发表于</span>
+                  <time itemprop="dateCreated" datetime="2016-10-22T19:32:02+08:00" content="2016-10-22">
+                    2016-10-22
+                  </time>
+                  
+               
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
       
+      
+
+      
+        
+          
+             
+               <p>面试又问到handler机制，还有些细节不明白。再梳理一遍。</p>
+<p>首先是Looper.prepare方法。这个方法做了几件工作；<br>1.创建messageQueue.<br>2.创建looper实例<br>3.将messageQueen和looper和当前线程绑定。</p>
+               <div class="post-more-link text-center">
+                 <a class="btn" href="/2016/10/22/handler/#more" rel="contents">
+                   阅读全文 &raquo;
+                 </a>
+               </div>
+             
+          
+
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+           
+        
+    
+        
+           
+              
 
   
   
@@ -359,10 +526,15 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-15T21:32:02+08:00" content="2016-10-15">
-              2016-10-15
-            </time>
+
+            
+               
+                  <span class="post-meta-item-text">发表于</span>
+                  <time itemprop="dateCreated" datetime="2016-10-15T21:32:02+08:00" content="2016-10-15">
+                    2016-10-15
+                  </time>
+                  
+               
             
           </span>
 
@@ -390,14 +562,19 @@
 
       
         
-          <h3 id="需求场景"><a href="#需求场景" class="headerlink" title="需求场景"></a>需求场景</h3><p>DataBinding,即将数据和view的行为绑定，在更新数据的时候自动更新view的显示。让coder更专注于业务上的数据变化。摆脱繁琐的setText,setBackground等等操作。</p>
+          
+             
+               <h3 id="需求场景"><a href="#需求场景" class="headerlink" title="需求场景"></a>需求场景</h3><p>DataBinding,即将数据和view的行为绑定，在更新数据的时候自动更新view的显示。让coder更专注于业务上的数据变化。摆脱繁琐的setText,setBackground等等操作。</p>
 <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>以binding setText方法为例。将getData &gt;&gt; setData &gt;&gt; notifyUI 简化成 getData &gt;&gt; setData ，而notifyUI这一步放到和setData绑定，实现在setData 的时候自动notifyUI。</p>
 <p>分解步骤为<br>1.将bean的字段和view的指定方法绑定（这里以setText为例<br>2.在setData的时候自动调用notifyUI的方法。<br>3.notifyUI的方法将自动获取bean的字段值和绑定的view的方法，并且调用绑定的view的方法传入值</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/10/15/ioc2/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+               <div class="post-more-link text-center">
+                 <a class="btn" href="/2016/10/15/ioc2/#more" rel="contents">
+                   阅读全文 &raquo;
+                 </a>
+               </div>
+             
+          
+
         
       
     </div>
@@ -423,8 +600,12 @@
   </article>
 
 
+           
+        
     
-      
+        
+           
+              
 
   
   
@@ -458,10 +639,15 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-11T21:32:02+08:00" content="2016-10-11">
-              2016-10-11
-            </time>
+
+            
+               
+                  <span class="post-meta-item-text">发表于</span>
+                  <time itemprop="dateCreated" datetime="2016-10-11T21:32:02+08:00" content="2016-10-11">
+                    2016-10-11
+                  </time>
+                  
+               
             
           </span>
 
@@ -489,13 +675,18 @@
 
       
         
-          <p>最近学了鸿神的编写ioc框架和编写编译时注解的项目的系列文章，写一下学习笔记。</p>
+          
+             
+               <p>最近学了鸿神的编写ioc框架和编写编译时注解的项目的系列文章，写一下学习笔记。</p>
 <h4 id="注解框架的使用原理"><a href="#注解框架的使用原理" class="headerlink" title="注解框架的使用原理"></a>注解框架的使用原理</h4><p>运行时注解框架的使用原理分为几步：<br>1.定义一个注解。<br>2.给需要使用统一处理的字段，类，方法加上注解。<br>3.通过一个入口方法获取被注解的字段，类，方法。<br>4.获取了字段，类，和方法后进行需要的处理。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/10/11/ioc/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+               <div class="post-more-link text-center">
+                 <a class="btn" href="/2016/10/11/ioc/#more" rel="contents">
+                   阅读全文 &raquo;
+                 </a>
+               </div>
+             
+          
+
         
       
     </div>
@@ -521,8 +712,12 @@
   </article>
 
 
+           
+        
     
-      
+        
+           
+              
 
   
   
@@ -556,10 +751,15 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-08T23:04:52+08:00" content="2016-10-08">
-              2016-10-08
-            </time>
+
+            
+               
+                  <span class="post-meta-item-text">发表于</span>
+                  <time itemprop="dateCreated" datetime="2016-10-08T23:04:52+08:00" content="2016-10-08">
+                    2016-10-08
+                  </time>
+                  
+               
             
           </span>
 
@@ -587,15 +787,20 @@
 
       
         
-          <p> 提供两个方法，一个根据key获取Constants的Value，一个反过来获取key。</p>
+          
+             
+               <p> 提供两个方法，一个根据key获取Constants的Value，一个反过来获取key。</p>
 <p> 使用场景：<br> 经常有这样的Constants文件需要转化：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public static String INSURANCE = &quot;保险&quot;;</div></pre></td></tr></table></figure>
 <p>有时候服务器给传过来一个“INSURANCE”字符串我们需要本地转化成”保险”字样。有时候我们本地显示的“保险”在传递给服务器的时候要变化成”INSURANCE”,一个小工具就能搞定了！<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/10/08/constantsUtil/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+               <div class="post-more-link text-center">
+                 <a class="btn" href="/2016/10/08/constantsUtil/#more" rel="contents">
+                   阅读全文 &raquo;
+                 </a>
+               </div>
+             
+          
+
         
       
     </div>
@@ -621,8 +826,12 @@
   </article>
 
 
+           
+        
     
-      
+        
+           
+              
 
   
   
@@ -656,10 +865,15 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-25T10:19:44+08:00" content="2016-09-25">
-              2016-09-25
-            </time>
+
+            
+               
+                  <span class="post-meta-item-text">发表于</span>
+                  <time itemprop="dateCreated" datetime="2016-09-25T10:19:44+08:00" content="2016-09-25">
+                    2016-09-25
+                  </time>
+                  
+               
             
           </span>
 
@@ -687,13 +901,18 @@
 
       
         
-          <img src="/2016/09/25/resume/top.jpg" alt="top.jpg" title="">
+          
+             
+               <img src="/2016/09/25/resume/top.jpg" alt="top.jpg" title="">
 <p><a href="/2016/09/25/resume/resume.pdf">简历下载</a><br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/09/25/resume/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+               <div class="post-more-link text-center">
+                 <a class="btn" href="/2016/09/25/resume/#more" rel="contents">
+                   阅读全文 &raquo;
+                 </a>
+               </div>
+             
+          
+
         
       
     </div>
@@ -719,6 +938,8 @@
   </article>
 
 
+           
+        
     
   </section>
 
