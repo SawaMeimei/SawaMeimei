@@ -85,33 +85,18 @@
 
 
 <meta name="description" content="ormlite的使用
-创建数据库以及表新建一个类继承OrmLiteSqliteOpenHelper，实现里面的方法。
-
-private static final String TABLE_NAME = &amp;quot;sqlite-test.db&amp;quot;;
-
-    private DatabaseOpenHelper(Context context) {
-      //在构造里创建数据库">
+创建数据库以及表新建一个类继承OrmLiteSqliteOpenHelper，实现里面的方法。123456789101112131415161718192021222324252627282930private static final String TABLE_NAME = &amp;quot;sqlite-test.db&amp;quot;;    private DatabaseOpe">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sawa' Blog">
 <meta property="og:url" content="http://yoursite.com/2016/11/25/ormlite/index.html">
 <meta property="og:site_name" content="Sawa' Blog">
 <meta property="og:description" content="ormlite的使用
-创建数据库以及表新建一个类继承OrmLiteSqliteOpenHelper，实现里面的方法。
-
-private static final String TABLE_NAME = &amp;quot;sqlite-test.db&amp;quot;;
-
-    private DatabaseOpenHelper(Context context) {
-      //在构造里创建数据库">
+创建数据库以及表新建一个类继承OrmLiteSqliteOpenHelper，实现里面的方法。123456789101112131415161718192021222324252627282930private static final String TABLE_NAME = &amp;quot;sqlite-test.db&amp;quot;;    private DatabaseOpe">
 <meta property="og:updated_time" content="2016-11-25T07:19:06.767Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sawa' Blog">
 <meta name="twitter:description" content="ormlite的使用
-创建数据库以及表新建一个类继承OrmLiteSqliteOpenHelper，实现里面的方法。
-
-private static final String TABLE_NAME = &amp;quot;sqlite-test.db&amp;quot;;
-
-    private DatabaseOpenHelper(Context context) {
-      //在构造里创建数据库">
+创建数据库以及表新建一个类继承OrmLiteSqliteOpenHelper，实现里面的方法。123456789101112131415161718192021222324252627282930private static final String TABLE_NAME = &amp;quot;sqlite-test.db&amp;quot;;    private DatabaseOpe">
 
 
 
@@ -303,157 +288,12 @@ private static final String TABLE_NAME = &amp;quot;sqlite-test.db&amp;quot;;
 
       
         <p>ormlite的使用</p>
-<h4 id="创建数据库以及表"><a href="#创建数据库以及表" class="headerlink" title="创建数据库以及表"></a>创建数据库以及表</h4><p>新建一个类继承OrmLiteSqliteOpenHelper，实现里面的方法。</p>
-<pre><code>
-private static final String TABLE_NAME = &quot;sqlite-test.db&quot;;
-
-    private DatabaseOpenHelper(Context context) {
-      //在构造里创建数据库
-        super(context, TABLE_NAME, null, 2);
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase database,
-                         ConnectionSource connectionSource) {
-        try {
-          //建表语句，根据需要建表的Java类建立对应的表
-            TableUtils.createTable(connectionSource, User.class);
-            TableUtils.createTable(connectionSource, Article.class);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase database,
-                          ConnectionSource connectionSource, int oldVersion, int newVersion) {
-        try {
-            TableUtils.dropTable(connectionSource, User.class, true);
-            onCreate(database, connectionSource);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-</code></pre><h4 id="对应的java对象"><a href="#对应的java对象" class="headerlink" title="对应的java对象"></a>对应的java对象</h4><pre><code>//使用DatabaseTable注解，tableName必须为tb_开头的tb_后为表名
-@DatabaseTable(tableName = &quot;tb_user&quot;)
-public class User {
-    //设置主键自增的id
-    @DatabaseField(generatedId = true)
-    private int id;
-
-    //设置列名
-    @DatabaseField(columnName = &quot;name&quot;)
-    private String name;
-
-    @DatabaseField(columnName = &quot;desc&quot;)
-    private String desc;
-
-    public User() {
-    }
-
-    public User(String name, String desc) {
-        this.name = name;
-        this.desc = desc;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    @Override
-    public String toString() {
-        return &quot;User{&quot; +
-                &quot;id=&quot; + id +
-                &quot;, name=&#39;&quot; + name + &#39;\&#39;&#39; +
-                &quot;, desc=&#39;&quot; + desc + &#39;\&#39;&#39; +
-                &#39;}&#39;;
-    }
-}
-</code></pre><h3 id="DAO的获取和CRUD操作"><a href="#DAO的获取和CRUD操作" class="headerlink" title="DAO的获取和CRUD操作"></a>DAO的获取和CRUD操作</h3><p>一句话获取指定的表的dao,传入的class即建表时使用的class</p>
-<pre><code>Dao dao = DatabaseOpenHelper.getHelper(context).getDao(clazz);
-</code></pre><p>crud操作</p>
-<pre><code>public class DataDAO&lt;T&gt; {
-
-    public Dao&lt;T, Integer&gt; dao;
-
-    public DataDAO(Dao&lt;T, Integer&gt; dao) {
-        this.dao = dao;
-    }
-
-    public boolean add(T t) {
-        if (dao != null) {
-            try {
-                int i = dao.create(t);
-                if (i == 1) {
-                    return true;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
-
-    public boolean delete(T t) {
-        if (dao != null) {
-            try {
-                int i = dao.delete(t);
-                if (i == 1) {
-                    return true;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
-
-    public boolean update(T t) {
-        if (dao != null) {
-            try {
-                int i = dao.update(t);
-                if (i == 1) {
-                    return true;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
-
-    public List&lt;T&gt; queryAll() {
-        if (dao != null) {
-            try {
-                return dao.queryForAll();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return new ArrayList&lt;&gt;();
-    }
-}
-</code></pre><p>更多其他api还有queryById等，queryByRaw支持sql语句查询。</p>
+<h4 id="创建数据库以及表"><a href="#创建数据库以及表" class="headerlink" title="创建数据库以及表"></a>创建数据库以及表</h4><p>新建一个类继承OrmLiteSqliteOpenHelper，实现里面的方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">private static final String TABLE_NAME = &quot;sqlite-test.db&quot;;</div><div class="line"></div><div class="line">    private DatabaseOpenHelper(Context context) &#123;</div><div class="line">      //在构造里创建数据库</div><div class="line">        super(context, TABLE_NAME, null, 2);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onCreate(SQLiteDatabase database,</div><div class="line">                         ConnectionSource connectionSource) &#123;</div><div class="line">        try &#123;</div><div class="line">          //建表语句，根据需要建表的Java类建立对应的表</div><div class="line">            TableUtils.createTable(connectionSource, User.class);</div><div class="line">            TableUtils.createTable(connectionSource, Article.class);</div><div class="line">        &#125; catch (SQLException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onUpgrade(SQLiteDatabase database,</div><div class="line">                          ConnectionSource connectionSource, int oldVersion, int newVersion) &#123;</div><div class="line">        try &#123;</div><div class="line">            TableUtils.dropTable(connectionSource, User.class, true);</div><div class="line">            onCreate(database, connectionSource);</div><div class="line">        &#125; catch (SQLException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h4 id="对应的java对象"><a href="#对应的java对象" class="headerlink" title="对应的java对象"></a>对应的java对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">//使用DatabaseTable注解，tableName必须为tb_开头的tb_后为表名</div><div class="line">@DatabaseTable(tableName = &quot;tb_user&quot;)</div><div class="line">public class User &#123;</div><div class="line">    //设置主键自增的id</div><div class="line">    @DatabaseField(generatedId = true)</div><div class="line">    private int id;</div><div class="line"></div><div class="line">    //设置列名</div><div class="line">    @DatabaseField(columnName = &quot;name&quot;)</div><div class="line">    private String name;</div><div class="line"></div><div class="line">    @DatabaseField(columnName = &quot;desc&quot;)</div><div class="line">    private String desc;</div><div class="line"></div><div class="line">    public User() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public User(String name, String desc) &#123;</div><div class="line">        this.name = name;</div><div class="line">        this.desc = desc;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getId() &#123;</div><div class="line">        return id;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setId(int id) &#123;</div><div class="line">        this.id = id;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public String getName() &#123;</div><div class="line">        return name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setName(String name) &#123;</div><div class="line">        this.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public String getDesc() &#123;</div><div class="line">        return desc;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setDesc(String desc) &#123;</div><div class="line">        this.desc = desc;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public String toString() &#123;</div><div class="line">        return &quot;User&#123;&quot; +</div><div class="line">                &quot;id=&quot; + id +</div><div class="line">                &quot;, name=&apos;&quot; + name + &apos;\&apos;&apos; +</div><div class="line">                &quot;, desc=&apos;&quot; + desc + &apos;\&apos;&apos; +</div><div class="line">                &apos;&#125;&apos;;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="DAO的获取和CRUD操作"><a href="#DAO的获取和CRUD操作" class="headerlink" title="DAO的获取和CRUD操作"></a>DAO的获取和CRUD操作</h3><p>一句话获取指定的表的dao,传入的class即建表时使用的class<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Dao dao = DatabaseOpenHelper.getHelper(context).getDao(clazz);</div></pre></td></tr></table></figure></p>
+<p>crud操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">public class DataDAO&lt;T&gt; &#123;</div><div class="line"></div><div class="line">    public Dao&lt;T, Integer&gt; dao;</div><div class="line"></div><div class="line">    public DataDAO(Dao&lt;T, Integer&gt; dao) &#123;</div><div class="line">        this.dao = dao;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean add(T t) &#123;</div><div class="line">        if (dao != null) &#123;</div><div class="line">            try &#123;</div><div class="line">                int i = dao.create(t);</div><div class="line">                if (i == 1) &#123;</div><div class="line">                    return true;</div><div class="line">                &#125;</div><div class="line">            &#125; catch (SQLException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean delete(T t) &#123;</div><div class="line">        if (dao != null) &#123;</div><div class="line">            try &#123;</div><div class="line">                int i = dao.delete(t);</div><div class="line">                if (i == 1) &#123;</div><div class="line">                    return true;</div><div class="line">                &#125;</div><div class="line">            &#125; catch (SQLException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean update(T t) &#123;</div><div class="line">        if (dao != null) &#123;</div><div class="line">            try &#123;</div><div class="line">                int i = dao.update(t);</div><div class="line">                if (i == 1) &#123;</div><div class="line">                    return true;</div><div class="line">                &#125;</div><div class="line">            &#125; catch (SQLException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public List&lt;T&gt; queryAll() &#123;</div><div class="line">        if (dao != null) &#123;</div><div class="line">            try &#123;</div><div class="line">                return dao.queryForAll();</div><div class="line">            &#125; catch (SQLException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return new ArrayList&lt;&gt;();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>更多其他api还有queryById等，queryByRaw支持sql语句查询。</p>
 <p>参考资料<br>  <a href="http://blog.csdn.net/lmj623565791/article/details/39122981" target="_blank" rel="external">http://blog.csdn.net/lmj623565791/article/details/39122981</a></p>
 
       

@@ -86,23 +86,23 @@
 
 <meta name="description" content="提供两个方法，一个根据key获取Constants的Value，一个反过来获取key。
  使用场景： 经常有这样的Constants文件需要转化：
-public static String INSURANCE = &amp;quot;保险&amp;quot;;
-有时候服务器给传过来一个“INSURANCE”字符串我们需要本地转化成”保险”字样。有时候我们本地显示的“保险”在传递给服务器的时候要变化成”INSUR">
+1public static String INSURANCE = &amp;quot;保险&amp;quot;;
+有时候服务器给传过来一个“INSURANCE”字符串我们需要本地转化成”保险”字样。有时候我们本地显示的“保险”在传递给服务器的时候要变化成”INSU">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一个用于读取Constants文件的小工具">
 <meta property="og:url" content="http://yoursite.com/2016/10/08/constantsUtil/index.html">
 <meta property="og:site_name" content="Sawa' Blog">
 <meta property="og:description" content="提供两个方法，一个根据key获取Constants的Value，一个反过来获取key。
  使用场景： 经常有这样的Constants文件需要转化：
-public static String INSURANCE = &amp;quot;保险&amp;quot;;
-有时候服务器给传过来一个“INSURANCE”字符串我们需要本地转化成”保险”字样。有时候我们本地显示的“保险”在传递给服务器的时候要变化成”INSUR">
+1public static String INSURANCE = &amp;quot;保险&amp;quot;;
+有时候服务器给传过来一个“INSURANCE”字符串我们需要本地转化成”保险”字样。有时候我们本地显示的“保险”在传递给服务器的时候要变化成”INSU">
 <meta property="og:updated_time" content="2016-10-11T13:26:06.657Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个用于读取Constants文件的小工具">
 <meta name="twitter:description" content="提供两个方法，一个根据key获取Constants的Value，一个反过来获取key。
  使用场景： 经常有这样的Constants文件需要转化：
-public static String INSURANCE = &amp;quot;保险&amp;quot;;
-有时候服务器给传过来一个“INSURANCE”字符串我们需要本地转化成”保险”字样。有时候我们本地显示的“保险”在传递给服务器的时候要变化成”INSUR">
+1public static String INSURANCE = &amp;quot;保险&amp;quot;;
+有时候服务器给传过来一个“INSURANCE”字符串我们需要本地转化成”保险”字样。有时候我们本地显示的“保险”在传递给服务器的时候要变化成”INSU">
 
 
 
@@ -307,93 +307,10 @@ public static String INSURANCE = &amp;quot;保险&amp;quot;;
       
         <p> 提供两个方法，一个根据key获取Constants的Value，一个反过来获取key。</p>
 <p> 使用场景：<br> 经常有这样的Constants文件需要转化：</p>
-<pre><code>public static String INSURANCE = &quot;保险&quot;;
-</code></pre><p>有时候服务器给传过来一个“INSURANCE”字符串我们需要本地转化成”保险”字样。有时候我们本地显示的“保险”在传递给服务器的时候要变化成”INSURANCE”,一个小工具就能搞定了！<br><a id="more"></a></p>
-<pre><code> public final class ConstantsUtil {
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public static String INSURANCE = &quot;保险&quot;;</div></pre></td></tr></table></figure>
+<p>有时候服务器给传过来一个“INSURANCE”字符串我们需要本地转化成”保险”字样。有时候我们本地显示的“保险”在传递给服务器的时候要变化成”INSURANCE”,一个小工具就能搞定了！<br><a id="more"></a></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div></pre></td><td class="code"><pre><div class="line"> public final class ConstantsUtil &#123;</div><div class="line"></div><div class="line">    private ConstantsUtil()&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private static HashMap&lt;String, HashMap&lt;String, String&gt;&gt; map = new HashMap&lt;&gt;();</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 读取Constants文件，通过服务器的Constants关键字直接变成本地Constants的值</div><div class="line">     * @param constantsClass Constants类</div><div class="line">     * @param constantsKey Constants的key</div><div class="line">     * @return Constants的值</div><div class="line">     */</div><div class="line">    public static String getConstantsValue(Class constantsClass, String constantsKey) &#123;</div><div class="line">        try &#123;</div><div class="line">            String className = constantsClass.getName();</div><div class="line">            Log.e(&quot;className&quot;,className);</div><div class="line">            HashMap&lt;String, String&gt; constantsMap = map.get(className);</div><div class="line">            if (constantsMap == null) &#123;</div><div class="line">                constantsMap = new HashMap&lt;&gt;();</div><div class="line">                Field[] fields = constantsClass.getFields();</div><div class="line">                for (int i = 0; i &lt; fields.length; i++) &#123;</div><div class="line">                    String key = fields[i].getName();</div><div class="line">                    String value = (String) fields[i].get(constantsClass);</div><div class="line">                    //这里有个神奇的字段是$change???不懂是哪里冒出来的</div><div class="line">                    if(value == null)&#123;</div><div class="line">                        continue;</div><div class="line">                    &#125;</div><div class="line">                    constantsMap.put(key, value);</div><div class="line">                &#125;</div><div class="line">                map.put(className,constantsMap);</div><div class="line">            &#125;</div><div class="line">            return constantsMap.get(constantsKey);</div><div class="line">        &#125; catch (IllegalAccessException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">            return &quot;&quot;;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 读取Constants文件，通过服务器的Constants值直接变成本地Constants的关键字，用于传给服务器</div><div class="line">     * @param constantsClass Constants类</div><div class="line">     * @param constantsValue Constants的值</div><div class="line">     * @return Constants的key</div><div class="line">     */</div><div class="line">    public static String getConstantsKey(Class constantsClass, String constantsValue) &#123;</div><div class="line">        try &#123;</div><div class="line">            String className = constantsClass.getName();</div><div class="line">            Log.e(&quot;className&quot;,className);</div><div class="line">            HashMap&lt;String, String&gt; constantsMap = map.get(className);</div><div class="line">            if (constantsMap == null) &#123;</div><div class="line">                constantsMap = new HashMap&lt;&gt;();</div><div class="line">                Field[] fields = constantsClass.getFields();</div><div class="line">                for (int i = 0; i &lt; fields.length; i++) &#123;</div><div class="line">                    String key = fields[i].getName();</div><div class="line">                    String value = (String) fields[i].get(constantsClass);</div><div class="line">                    if(value == null)&#123;</div><div class="line">                        continue;</div><div class="line">                    &#125;</div><div class="line">                    constantsMap.put(key, value);</div><div class="line">                &#125;</div><div class="line">                map.put(className,constantsMap);</div><div class="line">            &#125;</div><div class="line">            return reverseHashMap(constantsMap).get(constantsValue);</div><div class="line">        &#125; catch (IllegalAccessException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">            return &quot;&quot;;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 反转一个Map，将key和value对掉</div><div class="line">     * @param map 源map</div><div class="line">     * @return 对调key,value的map</div><div class="line">     */</div><div class="line">    private static HashMap&lt;String,String&gt; reverseHashMap(HashMap&lt;String, String&gt; map)&#123;</div><div class="line">        HashMap&lt;String, String&gt; newMap = new HashMap&lt;&gt;();</div><div class="line">        for(String keyStr:map.keySet())&#123;</div><div class="line">            newMap.put(map.get(keyStr),keyStr);</div><div class="line">        &#125;</div><div class="line">        return newMap;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
-    private ConstantsUtil(){
-
-    }
-
-    private static HashMap&lt;String, HashMap&lt;String, String&gt;&gt; map = new HashMap&lt;&gt;();
-
-    /**
-     * 读取Constants文件，通过服务器的Constants关键字直接变成本地Constants的值
-     * @param constantsClass Constants类
-     * @param constantsKey Constants的key
-     * @return Constants的值
-     */
-    public static String getConstantsValue(Class constantsClass, String constantsKey) {
-        try {
-            String className = constantsClass.getName();
-            Log.e(&quot;className&quot;,className);
-            HashMap&lt;String, String&gt; constantsMap = map.get(className);
-            if (constantsMap == null) {
-                constantsMap = new HashMap&lt;&gt;();
-                Field[] fields = constantsClass.getFields();
-                for (int i = 0; i &lt; fields.length; i++) {
-                    String key = fields[i].getName();
-                    String value = (String) fields[i].get(constantsClass);
-                    //这里有个神奇的字段是$change???不懂是哪里冒出来的
-                    if(value == null){
-                        continue;
-                    }
-                    constantsMap.put(key, value);
-                }
-                map.put(className,constantsMap);
-            }
-            return constantsMap.get(constantsKey);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return &quot;&quot;;
-        }
-    }
-
-    /**
-     * 读取Constants文件，通过服务器的Constants值直接变成本地Constants的关键字，用于传给服务器
-     * @param constantsClass Constants类
-     * @param constantsValue Constants的值
-     * @return Constants的key
-     */
-    public static String getConstantsKey(Class constantsClass, String constantsValue) {
-        try {
-            String className = constantsClass.getName();
-            Log.e(&quot;className&quot;,className);
-            HashMap&lt;String, String&gt; constantsMap = map.get(className);
-            if (constantsMap == null) {
-                constantsMap = new HashMap&lt;&gt;();
-                Field[] fields = constantsClass.getFields();
-                for (int i = 0; i &lt; fields.length; i++) {
-                    String key = fields[i].getName();
-                    String value = (String) fields[i].get(constantsClass);
-                    if(value == null){
-                        continue;
-                    }
-                    constantsMap.put(key, value);
-                }
-                map.put(className,constantsMap);
-            }
-            return reverseHashMap(constantsMap).get(constantsValue);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return &quot;&quot;;
-        }
-    }
-
-    /**
-     * 反转一个Map，将key和value对掉
-     * @param map 源map
-     * @return 对调key,value的map
-     */
-    private static HashMap&lt;String,String&gt; reverseHashMap(HashMap&lt;String, String&gt; map){
-        HashMap&lt;String, String&gt; newMap = new HashMap&lt;&gt;();
-        for(String keyStr:map.keySet()){
-            newMap.put(map.get(keyStr),keyStr);
-        }
-        return newMap;
-    }
-}
-</code></pre>
       
     </div>
 

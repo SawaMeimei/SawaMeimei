@@ -298,77 +298,20 @@
       
         <p>本文完成了xml配置转场动画和代码配置转场动画的一般方法。<br><a id="more"></a></p>
 <h3 id="完成一个activity跳转动画的一般方法"><a href="#完成一个activity跳转动画的一般方法" class="headerlink" title="完成一个activity跳转动画的一般方法"></a>完成一个activity跳转动画的一般方法</h3><h5 id="1-建立跳转动画的xml"><a href="#1-建立跳转动画的xml" class="headerlink" title="1.建立跳转动画的xml"></a>1.建立跳转动画的xml</h5><p>在res文件夹下建立一个新的transition文件夹，这里用来存放动画的xml文件。<br>动画文件可以以transitionSet布局或者是以某一个动画布局，可选的动画有<br>slide 滑动动画<br>explode 分解动画<br>fade 淡入淡出动画<br>每一个动画标签后面还有一些可选的属性，比如delay延时属性，duration动画时长等属性。<br>transitionSet标签下也有一些可选的属性</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;transitionSet xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
-    &lt;slide android:slideEdge=&quot;bottom&quot;&gt;
-        &lt;targets&gt;
-            &lt;target android:targetId=&quot;@+id/tv_content&quot; /&gt;
-        &lt;/targets&gt;
-    &lt;/slide&gt;
-    &lt;explode&gt;
-        &lt;targets&gt;
-            &lt;target android:excludeId=&quot;@android:id/navigationBarBackground&quot; /&gt;
-            &lt;target android:excludeId=&quot;@android:id/statusBarBackground&quot; /&gt;
-        &lt;/targets&gt;
-    &lt;/explode&gt;
-&lt;/transitionSet&gt;
-</code></pre><p>动画标签后是targets标签，这个标签包裹需要执行动画的target。<br>target标签下有两个重要属性 targetId 和 excludeId ，这两个标签代表动画执行的指定view的id和动画不执行的指定view的Id。</p>
-<h5 id="2-在指定的style下使用该动画，并让对应的页面使用该style"><a href="#2-在指定的style下使用该动画，并让对应的页面使用该style" class="headerlink" title="2.在指定的style下使用该动画，并让对应的页面使用该style"></a>2.在指定的style下使用该动画，并让对应的页面使用该style</h5><pre><code>&lt;!--主题貌似必须继承于Metrial或AppCompat--&gt;
-&lt;style name=&quot;AppTheme&quot; parent=&quot;Theme.AppCompat.Light.DarkActionBar&quot;&gt;
-           &lt;!-- 允许使用转场动画 --&gt;  
-           &lt;item name=&quot;android:windowContentTransitions&quot;&gt;true&lt;/item&gt;  
-
-           &lt;!-- 指定进入和退出转场动画 --&gt;  
-           &lt;item name=&quot;android:windowEnterTransition&quot;&gt;@transition/detail_enter&lt;/item&gt;
-           &lt;item name=&quot;android:windowExitTransition&quot;&gt;@transition/main_exit&lt;/item&gt;
-
-           &lt;!-- 指定共享元素的进入和退出动画 这个不太建议设置啊，默认的就好--&gt;  
-           &lt;item name=&quot;android:windowSharedElementEnterTransition&quot;&gt;  
-               @transition/detail_enter&lt;/item&gt;  
-           &lt;item name=&quot;android:windowSharedElementExitTransition&quot;&gt;  
-               @transition/main_exit&lt;/item&gt;  
-   &lt;/style&gt;
-</code></pre><p>对页面使用style</p>
-<pre><code>&lt;activity
-            android:name=&quot;.DetailActivity&quot;
-            android:theme=&quot;@style/AppTheme&quot;&gt;&lt;/activity&gt;
-</code></pre><h5 id="3-最后一步，在跳转新的activity时候使用设定的动画。"><a href="#3-最后一步，在跳转新的activity时候使用设定的动画。" class="headerlink" title="3.最后一步，在跳转新的activity时候使用设定的动画。"></a>3.最后一步，在跳转新的activity时候使用设定的动画。</h5><pre><code>       ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);  
-       startActivity(intent,options.toBundle());
-</code></pre><p>这么三步就完成了新的场景的跳转。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;transitionSet xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</div><div class="line">    &lt;slide android:slideEdge=&quot;bottom&quot;&gt;</div><div class="line">        &lt;targets&gt;</div><div class="line">            &lt;target android:targetId=&quot;@+id/tv_content&quot; /&gt;</div><div class="line">        &lt;/targets&gt;</div><div class="line">    &lt;/slide&gt;</div><div class="line">    &lt;explode&gt;</div><div class="line">        &lt;targets&gt;</div><div class="line">            &lt;target android:excludeId=&quot;@android:id/navigationBarBackground&quot; /&gt;</div><div class="line">            &lt;target android:excludeId=&quot;@android:id/statusBarBackground&quot; /&gt;</div><div class="line">        &lt;/targets&gt;</div><div class="line">    &lt;/explode&gt;</div><div class="line">&lt;/transitionSet&gt;</div></pre></td></tr></table></figure>
+<p>动画标签后是targets标签，这个标签包裹需要执行动画的target。<br>target标签下有两个重要属性 targetId 和 excludeId ，这两个标签代表动画执行的指定view的id和动画不执行的指定view的Id。</p>
+<h5 id="2-在指定的style下使用该动画，并让对应的页面使用该style"><a href="#2-在指定的style下使用该动画，并让对应的页面使用该style" class="headerlink" title="2.在指定的style下使用该动画，并让对应的页面使用该style"></a>2.在指定的style下使用该动画，并让对应的页面使用该style</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;!--主题貌似必须继承于Metrial或AppCompat--&gt;</div><div class="line">&lt;style name=&quot;AppTheme&quot; parent=&quot;Theme.AppCompat.Light.DarkActionBar&quot;&gt;</div><div class="line">           &lt;!-- 允许使用转场动画 --&gt;  </div><div class="line">           &lt;item name=&quot;android:windowContentTransitions&quot;&gt;true&lt;/item&gt;  </div><div class="line"></div><div class="line">           &lt;!-- 指定进入和退出转场动画 --&gt;  </div><div class="line">           &lt;item name=&quot;android:windowEnterTransition&quot;&gt;@transition/detail_enter&lt;/item&gt;</div><div class="line">           &lt;item name=&quot;android:windowExitTransition&quot;&gt;@transition/main_exit&lt;/item&gt;</div><div class="line"></div><div class="line">           &lt;!-- 指定共享元素的进入和退出动画 这个不太建议设置啊，默认的就好--&gt;  </div><div class="line">           &lt;item name=&quot;android:windowSharedElementEnterTransition&quot;&gt;  </div><div class="line">               @transition/detail_enter&lt;/item&gt;  </div><div class="line">           &lt;item name=&quot;android:windowSharedElementExitTransition&quot;&gt;  </div><div class="line">               @transition/main_exit&lt;/item&gt;  </div><div class="line">   &lt;/style&gt;</div></pre></td></tr></table></figure>
+<p>对页面使用style<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;activity</div><div class="line">            android:name=&quot;.DetailActivity&quot;</div><div class="line">            android:theme=&quot;@style/AppTheme&quot;&gt;&lt;/activity&gt;</div></pre></td></tr></table></figure></p>
+<h5 id="3-最后一步，在跳转新的activity时候使用设定的动画。"><a href="#3-最后一步，在跳转新的activity时候使用设定的动画。" class="headerlink" title="3.最后一步，在跳转新的activity时候使用设定的动画。"></a>3.最后一步，在跳转新的activity时候使用设定的动画。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);  </div><div class="line">startActivity(intent,options.toBundle());</div></pre></td></tr></table></figure>
+<p>这么三步就完成了新的场景的跳转。</p>
 <h3 id="给转场动画添加共享元素"><a href="#给转场动画添加共享元素" class="headerlink" title="给转场动画添加共享元素"></a>给转场动画添加共享元素</h3><p>除了上面的1，2步外，还需要</p>
 <h5 id="3b-给目标activity的共享元素添加属性android-transitionName"><a href="#3b-给目标activity的共享元素添加属性android-transitionName" class="headerlink" title="3b.给目标activity的共享元素添加属性android:transitionName"></a>3b.给目标activity的共享元素添加属性android:transitionName</h5><p>给目标activity的共享元素添加属性 android:transitionName = “指定一个字符串”;<br>这个transitionName将会在跳转的时候作为关键的key来找到共享元素。</p>
-<h5 id="4-在跳转新的activity的时候设定共享元素"><a href="#4-在跳转新的activity的时候设定共享元素" class="headerlink" title="4.在跳转新的activity的时候设定共享元素"></a>4.在跳转新的activity的时候设定共享元素</h5><pre><code>        //一个共享元素的时候
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, v,&quot;指定的共享元素字符串&quot;);
-
-        //多个共享元素的时候
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,  
-                Pair.create(view1, &quot;指定的共享元素字符串1&quot;),  
-                Pair.create(view2, &quot;指定的共享元素字符串2&quot;));  
-
-        startActivity(intent,options.toBundle());
-</code></pre><p>然而。。这么写动画太麻烦了，涉及到2个xml文件还有java代码。尝试用代码来实现场景动画。</p>
-<h3 id="代码配置转场动画"><a href="#代码配置转场动画" class="headerlink" title="代码配置转场动画"></a>代码配置转场动画</h3><p>尝试使用代码来配置转场动画，在window中有四个api</p>
-<pre><code>       Window window = getWindow();
-       window.setExitTransition();
-       window.setEnterTransition();
-       window.setReturnTransition();
-       window.setReenterTransition();
-       window.setSharedElementExitTransition....
-
-       //还有相对应get方法在此忽略
-</code></pre><p>分别对应退出，进入，返回，重进入的转场动画，以及共享元素的动画。传入的参数都是Transition的实现类。<br>当然transitionSet也是Transition的实现类。<br>xml中配置的几个transition对应的实现类为Fade,Slide,Explode。</p>
-<p>一个代码配置转场动画的代码实例如下</p>
-<pre><code>activity2.onCreate:
-        slide = new Explode();
-        slide.excludeTarget(android.R.id.navigationBarBackground,true).excludeTarget(android.R.id.statusBarBackground,true);
-        slide.setStartDelay(500);
-        getWindow().setEnterTransition(slide);
-
-activity1.startActivity:
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,findViewById(R.id.iv),&quot;jump&quot;);
-        Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
-        startActivity(intent,options.toBundle());
-</code></pre><p>代码配置主要是要清楚什么动画在哪个activity内执行，然后在不同的activity内配置就好。</p>
+<h5 id="4-在跳转新的activity的时候设定共享元素"><a href="#4-在跳转新的activity的时候设定共享元素" class="headerlink" title="4.在跳转新的activity的时候设定共享元素"></a>4.在跳转新的activity的时候设定共享元素</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">//一个共享元素的时候</div><div class="line">ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, v,&quot;指定的共享元素字符串&quot;);</div><div class="line"></div><div class="line">//多个共享元素的时候</div><div class="line">ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,  </div><div class="line">        Pair.create(view1, &quot;指定的共享元素字符串1&quot;),  </div><div class="line">        Pair.create(view2, &quot;指定的共享元素字符串2&quot;));  </div><div class="line"></div><div class="line">startActivity(intent,options.toBundle());</div></pre></td></tr></table></figure>
+<p>然而。。这么写动画太麻烦了，涉及到2个xml文件还有java代码。尝试用代码来实现场景动画。</p>
+<h3 id="代码配置转场动画"><a href="#代码配置转场动画" class="headerlink" title="代码配置转场动画"></a>代码配置转场动画</h3><p>尝试使用代码来配置转场动画，在window中有四个api<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Window window = getWindow();</div><div class="line">window.setExitTransition();</div><div class="line">window.setEnterTransition();</div><div class="line">window.setReturnTransition();</div><div class="line">window.setReenterTransition();</div><div class="line">window.setSharedElementExitTransition....</div><div class="line"></div><div class="line">//还有相对应get方法在此忽略</div></pre></td></tr></table></figure></p>
+<p>分别对应退出，进入，返回，重进入的转场动画，以及共享元素的动画。传入的参数都是Transition的实现类。<br>当然transitionSet也是Transition的实现类。<br>xml中配置的几个transition对应的实现类为Fade,Slide,Explode。</p>
+<p>一个代码配置转场动画的代码实例如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">activity2.onCreate:</div><div class="line">        slide = new Explode();</div><div class="line">        slide.excludeTarget(android.R.id.navigationBarBackground,true).excludeTarget(android.R.id.statusBarBackground,true);</div><div class="line">        slide.setStartDelay(500);</div><div class="line">        getWindow().setEnterTransition(slide);</div><div class="line"></div><div class="line">activity1.startActivity:</div><div class="line">        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,findViewById(R.id.iv),&quot;jump&quot;);</div><div class="line">        Intent intent = new Intent(getApplicationContext(), DetailActivity.class);</div><div class="line">        startActivity(intent,options.toBundle());</div></pre></td></tr></table></figure></p>
+<p>代码配置主要是要清楚什么动画在哪个activity内执行，然后在不同的activity内配置就好。</p>
 <h3 id="一些总结和坑"><a href="#一些总结和坑" class="headerlink" title="一些总结和坑"></a>一些总结和坑</h3><p>xml配置transition有bug,比如配置transitionSet但只存在一个动画的时候不执行，代码配置没这个问题。<br>exitTransition执行的时候是和startActivity同步执行的，并不是等transition动画执行完之后再startActivity,这个会导致exitTransition动画不明显<br>在没有配置returnTransition动画的时候在return到该activity的时候会反向执行enterTransiton动画，即原路退出。<br>在代码里调用finish不会执行transition动画，触发back键的时候会执行transition动画，可以使用finishAfterTranistion或onBackPressed方法来触发动画并finish。</p>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://blog.csdn.net/wl9739/article/details/52833668" target="_blank" rel="external">Android 中的转场动画及兼容处理</a><br><a href="http://blog.csdn.net/chen930724/article/details/51674304" target="_blank" rel="external">Android 自定义转场动画</a><br><a href="https://developer.android.com/training/material/animations.html?hl=zh-cn" target="_blank" rel="external">AndroidDeveloper 自定义转场动画</a></p>
 

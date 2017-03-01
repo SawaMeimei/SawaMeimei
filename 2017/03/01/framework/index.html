@@ -301,64 +301,8 @@
 <p>先讲一讲贯彻的思想：即<b>单一职责</b>。所谓的单一职责就是一类组件只干一件事，这个思想将贯彻到整个项目的架构上。</p>
 <h3 id="整个项目采用mvvm的结构"><a href="#整个项目采用mvvm的结构" class="headerlink" title="整个项目采用mvvm的结构"></a>整个项目采用mvvm的结构</h3><h5 id="为什么使用mvvm而不是mvp"><a href="#为什么使用mvvm而不是mvp" class="headerlink" title="为什么使用mvvm而不是mvp?"></a>为什么使用mvvm而不是mvp?</h5><p>mvp现在很火热，也有很多大公司的使用场景。普通的mvp我们可以知道思想主要是p层负责逻辑的处理，并将操作ui的操作抽象为接口，然后由v自己实现该接口，p层和v层的交流就通过这个v层的接口来交流。</p>
 <p>一份示例代码如下：取自鸿洋的博文 <a href="http://blog.csdn.net/lmj623565791/article/details/46596109" target="_blank" rel="external">浅谈 MVP in Android</a></p>
-<pre><code>public class UserLoginPresenter
-{
-    private IUserBiz userBiz;
-    private IUserLoginView userLoginView;
-    private Handler mHandler = new Handler();
-
-    public UserLoginPresenter(IUserLoginView userLoginView)
-    {
-        this.userLoginView = userLoginView;
-        this.userBiz = new UserBiz();
-    }
-
-    public void login()
-    {
-        userLoginView.showLoading();
-        userBiz.login(userLoginView.getUserName(), userLoginView.getPassword(), new OnLoginListener()
-        {
-            @Override
-            public void loginSuccess(final User user)
-            {
-                //需要在UI线程执行
-                mHandler.post(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        userLoginView.toMainActivity(user);
-                        userLoginView.hideLoading();
-                    }
-                });
-
-            }
-
-            @Override
-            public void loginFailed()
-            {
-                //需要在UI线程执行
-                mHandler.post(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        userLoginView.showFailedError();
-                        userLoginView.hideLoading();
-                    }
-                });
-
-            }
-        });
-    }
-
-    public void clear()
-    {
-        userLoginView.clearUserName();
-        userLoginView.clearPassword();
-    }
-}
-</code></pre><p>可以看到示例代码中presenter初始化的时候是传入一个IUserLoginView的接口对象，然后由activity或其他组件来实现。p层不关心具体的实现，mvp架构的好处是p层逻辑非常好测试，甚至完全可以抽离出来做单元测试。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">public class UserLoginPresenter</div><div class="line">&#123;</div><div class="line">    private IUserBiz userBiz;</div><div class="line">    private IUserLoginView userLoginView;</div><div class="line">    private Handler mHandler = new Handler();</div><div class="line"></div><div class="line">    public UserLoginPresenter(IUserLoginView userLoginView)</div><div class="line">    &#123;</div><div class="line">        this.userLoginView = userLoginView;</div><div class="line">        this.userBiz = new UserBiz();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void login()</div><div class="line">    &#123;</div><div class="line">        userLoginView.showLoading();</div><div class="line">        userBiz.login(userLoginView.getUserName(), userLoginView.getPassword(), new OnLoginListener()</div><div class="line">        &#123;</div><div class="line">            @Override</div><div class="line">            public void loginSuccess(final User user)</div><div class="line">            &#123;</div><div class="line">                //需要在UI线程执行</div><div class="line">                mHandler.post(new Runnable()</div><div class="line">                &#123;</div><div class="line">                    @Override</div><div class="line">                    public void run()</div><div class="line">                    &#123;</div><div class="line">                        userLoginView.toMainActivity(user);</div><div class="line">                        userLoginView.hideLoading();</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line"></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public void loginFailed()</div><div class="line">            &#123;</div><div class="line">                //需要在UI线程执行</div><div class="line">                mHandler.post(new Runnable()</div><div class="line">                &#123;</div><div class="line">                    @Override</div><div class="line">                    public void run()</div><div class="line">                    &#123;</div><div class="line">                        userLoginView.showFailedError();</div><div class="line">                        userLoginView.hideLoading();</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void clear()</div><div class="line">    &#123;</div><div class="line">        userLoginView.clearUserName();</div><div class="line">        userLoginView.clearPassword();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到示例代码中presenter初始化的时候是传入一个IUserLoginView的接口对象，然后由activity或其他组件来实现。p层不关心具体的实现，mvp架构的好处是p层逻辑非常好测试，甚至完全可以抽离出来做单元测试。</p>
 <p>但是mvp模式却有两个问题</p>
 <p>1.p层负责了太多的逻辑。</p>
 <p>p层虽然不关心ui操作的实现，但是p层还是操作了ui,并且是通过接口对象来操作ui的，也就是说p层除了业务逻辑判断，还是涉及了ui的操作？想想mvc架构下的activity,是不是也负责逻辑和操作ui，只不过mvc下的activity是操作具体的ui而presenter是操作ui的抽象而已。当然像鸿洋这样再把业务逻辑抽象成另一个IUserBiz接口再传入实现，presenter只负责连接业务逻辑和view也是可以的，但是mvc也是完全做到的，mvp好像失去了他的特性？</p>
@@ -366,153 +310,19 @@
 <p>从上面那个例子我们可以清楚的从p层知道业务逻辑的流程是 弹出dialog &gt; 获取username和password &gt;执行登录逻辑 &gt; 登录成功，关闭dialog</p>
 <p>现在我们添加一个username和password验证，p层的逻辑变为这样 检验username &gt; 检验失败弹出toast/检验成功检验password &gt; 检验失败弹出toast/检验成功弹出dialog &gt; 执行登录逻辑 &gt; 登录成功，关闭dialog</p>
 <p>那么我们就要在v层增加两个方法 showCheckUsernameFailureToast 和 showCheckPasswordFailureToast这简直爆炸好吗，要是检验的东西有十几项那直接爆炸十余个方法了要，嗯还要在v层的接口增加十余个方法，所谓牵一发动全身也不过如此。。当然我也可以把所有的弹出的方法都抽象成一个showToast的方法，然后由p层来决定toast的内容。但是这样好像又违反了mvp的设计初衷，p层直接的控制了v层的ui具体实现，而不是以一种抽象的方法不去了解v层的具体实现。总之当业务复杂起来的话v层将会无限膨胀到几十个方法并且这些逻辑没有关联非常的零散，只有通过p层才知道这些方法的执行流程。</p>
-<h5 id="使用mvvm的一般写法"><a href="#使用mvvm的一般写法" class="headerlink" title="使用mvvm的一般写法"></a>使用mvvm的一般写法</h5><p>在我的项目中mvvm一般是这么写的：<br>这是基础的baseView</p>
-<pre><code>public abstract class BaseView {
-
-    protected View rootView;
-
-    public BaseView(View rootView) {
-        this.rootView = rootView;
-    }
-
-    public BaseView(Context context, int layoutId) {
-        this.rootView = View.inflate(context, layoutId, null);
-    }
-
-    public View getRootView() {
-        return rootView;
-    }
-}
-</code></pre><p>这是基础的ViewModel,提供一个bind方法,这个方法的核心就是将数据设置给view或从view上获取数据</p>
-<pre><code>public abstract class BaseViewModel&lt;V extends BaseView, M extends Serializable&gt; {
-
-    protected V rootView;
-
-    public BaseViewModel(V rootView) {
-        this.rootView = rootView;
-    }
-
-    public abstract void bind(M model);
-}
-</code></pre><p>在同一个登录案例中，我的代码结构是这样的</p>
-<pre><code>1.MainActivity                  //负责登录的逻辑流程
-2.MainView extends BaseView     //负责find到Activity布局中的所有逻辑view
-3.MainVM extends BaseViewModel  //负责从view获取数据到model上或把model的数据设置到view上，是view和model的桥梁
-</code></pre><p>MainView代码如下</p>
-<pre><code>public class MainView extends BaseView {
-
-    public MainView(View rootView) {
-        super(rootView);
-    }
-
-    public MainView(Context context, int layoutId) {
-        super(context, layoutId);
-    }
-
-    public EditText userNameEditText() {
-        return (EditText) rootView.findViewById(R.id.et_username);
-    }
-
-    public EditText passwordEditText() {
-        return (EditText) rootView.findViewById(R.id.et_password);
-    }
-
-    public Button submitButton() {
-        return (Button) rootView.findViewById(R.id.btn_submit);
-    }
-}
-</code></pre><p>MainViewModel的代码如下</p>
-<pre><code>public class MainVM extends BaseViewModel&lt;MainView, LoginData&gt; {
-
-    public MainVM(MainView rootView) {
-        super(rootView);
-    }
-
-    @Override
-    public void bind(LoginData model) {
-        String userNameStr = rootView.passwordEditText().getText().toString();
-        model.userName = userNameStr;
-
-        String passwordStr = rootView.passwordEditText().toString().toString();
-        model.password = passwordStr;
-    }
-}
-</code></pre><p>LoginData的代码如下</p>
-<pre><code>public class LoginData implements Serializable {
-    public String userName;
-    public String password;
-}
-</code></pre><p>最后在MainActivity中组装起来是这样的</p>
-<pre><code>public class MainActivity extends AppCompatActivity {
-
-    private MainVM mainVM;
-    private LoginData loginData;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        MainView mainView = new MainView(this, R.layout.activity_main);
-        setContentView(mainView.getRootView());
-
-        loginData = new LoginData();
-        mainVM = new MainVM(mainView);
-        mainView.submitButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (checkData()) {
-                    login();
-                }
-            }
-        });
-    }
-
-    private void login() {
-        showDialog();
-        trueLogin();
-    }
-
-    private boolean checkData() {
-        mainVM.bind(loginData);
-
-        if (TextUtils.isEmpty(loginData.userName)) {
-            Toast.makeText(this, &quot;用户名不正确&quot;, Toast.LENGTH_SHORT);
-            return false;
-        }
-
-        if (TextUtils.isEmpty(loginData.password)) {
-            Toast.makeText(this, &quot;密码不正确&quot;, Toast.LENGTH_SHORT);
-            return false;
-        }
-
-        return true;
-    }
-
-    private void showDialog() {
-
-    }
-
-    private void trueLogin() {
-        //这里做登录的请求
-        dismissDialog();
-    }
-
-    private void dismissDialog() {
-
-    }
-}
-</code></pre><p>可以很清楚的看到各个类的职责很清楚。activity负责逻辑流程，viewModel负责数据的流向（从view流向model/从model流向view），view只负责findView，bean只负责保存数据。</p>
+<h5 id="使用mvvm的一般写法"><a href="#使用mvvm的一般写法" class="headerlink" title="使用mvvm的一般写法"></a>使用mvvm的一般写法</h5><p>在我的项目中mvvm一般是这么写的：<br>这是基础的baseView<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public abstract class BaseView &#123;</div><div class="line"></div><div class="line">    protected View rootView;</div><div class="line"></div><div class="line">    public BaseView(View rootView) &#123;</div><div class="line">        this.rootView = rootView;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public BaseView(Context context, int layoutId) &#123;</div><div class="line">        this.rootView = View.inflate(context, layoutId, null);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public View getRootView() &#123;</div><div class="line">        return rootView;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这是基础的ViewModel,提供一个bind方法,这个方法的核心就是将数据设置给view或从view上获取数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public abstract class BaseViewModel&lt;V extends BaseView, M extends Serializable&gt; &#123;</div><div class="line"></div><div class="line">    protected V rootView;</div><div class="line"></div><div class="line">    public BaseViewModel(V rootView) &#123;</div><div class="line">        this.rootView = rootView;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public abstract void bind(M model);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在同一个登录案例中，我的代码结构是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1.MainActivity                  //负责登录的逻辑流程</div><div class="line">2.MainView extends BaseView     //负责find到Activity布局中的所有逻辑view</div><div class="line">3.MainVM extends BaseViewModel  //负责从view获取数据到model上或把model的数据设置到view上，是view和model的桥梁</div></pre></td></tr></table></figure></p>
+<p>MainView代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public class MainView extends BaseView &#123;</div><div class="line"></div><div class="line">    public MainView(View rootView) &#123;</div><div class="line">        super(rootView);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public MainView(Context context, int layoutId) &#123;</div><div class="line">        super(context, layoutId);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public EditText userNameEditText() &#123;</div><div class="line">        return (EditText) rootView.findViewById(R.id.et_username);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public EditText passwordEditText() &#123;</div><div class="line">        return (EditText) rootView.findViewById(R.id.et_password);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public Button submitButton() &#123;</div><div class="line">        return (Button) rootView.findViewById(R.id.btn_submit);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>MainViewModel的代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class MainVM extends BaseViewModel&lt;MainView, LoginData&gt; &#123;</div><div class="line"></div><div class="line">    public MainVM(MainView rootView) &#123;</div><div class="line">        super(rootView);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void bind(LoginData model) &#123;</div><div class="line">        String userNameStr = rootView.passwordEditText().getText().toString();</div><div class="line">        model.userName = userNameStr;</div><div class="line"></div><div class="line">        String passwordStr = rootView.passwordEditText().toString().toString();</div><div class="line">        model.password = passwordStr;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>LoginData的代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public class LoginData implements Serializable &#123;</div><div class="line">    public String userName;</div><div class="line">    public String password;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最后在MainActivity中组装起来是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">public class MainActivity extends AppCompatActivity &#123;</div><div class="line"></div><div class="line">    private MainVM mainVM;</div><div class="line">    private LoginData loginData;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">        super.onCreate(savedInstanceState);</div><div class="line">        MainView mainView = new MainView(this, R.layout.activity_main);</div><div class="line">        setContentView(mainView.getRootView());</div><div class="line"></div><div class="line">        loginData = new LoginData();</div><div class="line">        mainVM = new MainVM(mainView);</div><div class="line">        mainView.submitButton().setOnClickListener(new View.OnClickListener() &#123;</div><div class="line">            @Override</div><div class="line">            public void onClick(View view) &#123;</div><div class="line">                if (checkData()) &#123;</div><div class="line">                    login();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void login() &#123;</div><div class="line">        showDialog();</div><div class="line">        trueLogin();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private boolean checkData() &#123;</div><div class="line">        mainVM.bind(loginData);</div><div class="line"></div><div class="line">        if (TextUtils.isEmpty(loginData.userName)) &#123;</div><div class="line">            Toast.makeText(this, &quot;用户名不正确&quot;, Toast.LENGTH_SHORT);</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if (TextUtils.isEmpty(loginData.password)) &#123;</div><div class="line">            Toast.makeText(this, &quot;密码不正确&quot;, Toast.LENGTH_SHORT);</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void showDialog() &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void trueLogin() &#123;</div><div class="line">        //这里做登录的请求</div><div class="line">        dismissDialog();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void dismissDialog() &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以很清楚的看到各个类的职责很清楚。activity负责逻辑流程，viewModel负责数据的流向（从view流向model/从model流向view），view只负责findView，bean只负责保存数据。</p>
 <h3 id="分层思想在android中的应用"><a href="#分层思想在android中的应用" class="headerlink" title="分层思想在android中的应用"></a>分层思想在android中的应用</h3><p>mvvm是分层思想在架构中的一部分实现，在我们项目中有更具体的分层。</p>
 <p>Activity  负责需要activity做上下文的全部操作，比如onActivityForResult，replaceFragment。<br>Fragment  负责逻辑处理，包括网络请求，数据校验。<br>View      负责findView，每一个view对应绑定一个layout。<br>ViewModel 负责数据流向，从view流向到model或从model流向到view。</p>
 <h3 id="一些其他的技巧"><a href="#一些其他的技巧" class="headerlink" title="一些其他的技巧"></a>一些其他的技巧</h3><p>1.使用静态方法来启动activity，service或创建fragment，而不是通过new Intent。<br>启动时intent中需要的参数可以通过静态方法来检查。</p>
-<pre><code>public class OrderActivity extends Activity{
-
-      public static void launch(Activity activity, String orderId) {
-          Intent intent = new Intent(activity, OrderActivity.class);
-          intent.putExtra(&quot;orderId&quot;, orderId);
-          activity.startActivity(intent);
-      }
-}
-</code></pre><p>2.方便的使用LocalBroadcastManager来进行组件通信。由于startActivityForResult对activity有极大的耦合性，可以在组件通信间考虑使用广播来代替。广播对于EnventBus，RxJava等第三方框架的好处有：（1）原生支持，对于一些公共的组件或sdk化提供了共通的解决办法  （2）需要的上下文支持比较少，任何Context都可以支持广播的收发，而android运行环境中又有一个Application的Context是贯穿app生命周期的，现在开发人员都有在初始化Application的时候都有Application的静态引用，这样基本在代码的任何地方都能收发广播而没有上下文需求。（注意内存泄漏）he</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public class OrderActivity extends Activity&#123;</div><div class="line"></div><div class="line">      public static void launch(Activity activity, String orderId) &#123;</div><div class="line">          Intent intent = new Intent(activity, OrderActivity.class);</div><div class="line">          intent.putExtra(&quot;orderId&quot;, orderId);</div><div class="line">          activity.startActivity(intent);</div><div class="line">      &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2.方便的使用LocalBroadcastManager来进行组件通信。由于startActivityForResult对activity有极大的耦合性，可以在组件通信间考虑使用广播来代替。广播对于EnventBus，RxJava等第三方框架的好处有：（1）原生支持，对于一些公共的组件或sdk化提供了共通的解决办法  （2）需要的上下文支持比较少，任何Context都可以支持广播的收发，而android运行环境中又有一个Application的Context是贯穿app生命周期的，现在开发人员都有在初始化Application的时候都有Application的静态引用，这样基本在代码的任何地方都能收发广播而没有上下文需求。（注意内存泄漏）he</p>
 <p>3.命名规范有助于理解代码结构，xxxManager一般是一个单例的类，xxxHelper一般是需要建立对象才能使用，xxxBuilder一般使用构造器的设计模式提供一个builder方法，xxxUtil一般提供一些静态方法</p>
 <p>4.枚举类的使用，虽然比直接的字段调用效率慢，但可以携带更多数据，并且可以提供一些方法。还可以做方法的签名检验</p>
 <p>5.按模块&gt;组件分包 + 清楚各组件的职责 有利于快速定位业务逻辑。</p>
